@@ -1,0 +1,9 @@
+{
+    "//comment": "We can use \"type\": \"module\" for ES specifications else we need to use .mjs extension to use ES6 syntax",
+    "name": "nodejs-30-day-challenge",
+    "version": "1.0.0",
+    "description": "SCaler nodejs-30-day-challenge",
+    "type": "commonjs",
+    "author": "Mrudang Vora",
+    "license": "MIT"
+}
