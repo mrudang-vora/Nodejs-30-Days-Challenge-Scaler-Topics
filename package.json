@@ -5,5 +5,8 @@
     "description": "Scaler nodejs-30-day-challenge",
     "type": "commonjs",
     "author": "Mrudang Vora",
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+        "colors": "^1.4.0"
+    }
 }

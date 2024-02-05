@@ -1,0 +1,33 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore npm debugging log file
+npm-debug.log
+
+# Ignore environment variable file
+.env
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Visual Studio Code IDE directory
+.vscode/
+
+# Ignore IDE-specific files and directories
+.idea/
+
+# Ignore code coverage directory
+coverage/
+
+# Ignore built or compiled output directory
+dist/
+build/
+
+# Ignore log files
+*.log
+
+# Ignore process ID files
+*.pid
+
+# Ignore Yarn lock file (if using Yarn)
+yarn.lock
