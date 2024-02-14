@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket Example</title>
+  <link rel="stylesheet" href="styles/1.css">
+  <style>
+    .chatBox {
+      width: 300px;
+      height: 200px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+    <h1>Welcome to Challenge 13 - WebSocket</h1>
+    <input type="text" id="txtMsg" placeholder="Enter message" />
+    <button id="btnSendMsg">Send Message</button>
+    <div id="divMsg" class="chatBox"></div>
+    <script>
+        const ws = new WebSocket('ws://localhost:3003');        
+        ws.onopen = () => {
+            console.log('Client - WebSocket connected');
+            ws.send('Hello from websocket.html client!');
+        };
+
+        ws.onmessage = (event) => {
+            console.log('Client - Received message from server:', event.data);
+            const divMsg = document.getElementById('divMsg');
+            divMsg.innerText += event.data + '\n';
+            // Optionally, you can also scroll to the bottom of the div to show the latest message
+            divMsg.scrollTop = divMsg.scrollHeight;
+        };
+
+        ws.onclose = () => {
+            console.log('Client - WebSocket disconnected');
+        };
+
+        btnSendMsg.addEventListener('click', sendMsg);
+        txtMsg.addEventListener('keydown', function(event) {
+             // Check if the Enter key was pressed
+            if (event.keyCode === 13) {
+                 // Prevent the default behavior of the Enter key (i.e., submitting the form)
+                event.preventDefault();
+                // Call the sendMsg function
+                sendMsg();
+            }
+        });
+
+        function sendMsg(){
+            const msg = document.getElementById('txtMsg').value;
+            if (msg.trim() !== '') {
+                ws.send(msg);
+                // Display the sent message in the chat window
+                displayMessage('You: ' + msg);
+                // Clear the input field
+                document.getElementById('txtMsg').value = ''; 
+            }
+            function displayMessage(message) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerHTML = `
+                <span class="sender">${message.split(':')[0]}:</span>
+                <span class="messageText">${message.split(':')[1]}</span>
+                <br />
+                `;
+                divMsg.appendChild(messageElement);
+                // Scroll to the bottom to show the latest message
+                divMsg.scrollTop = divMsg.scrollHeight; 
+            }
+        }
+    </script>
+
+    
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script>
+    <script>
+        // Connect to the Socket.IO server
+        const socket = io('ws://localhost:3003');  
+        const divMsg = document.getElementById('divMsg');
+        socket.on('connect', () => {  
+            // Event listener for when the connection is established
+            console.log('Client - Socket connected');
+            // Send a message to the server
+            socket.emit('message', 'Hello from websocket.html client!');
+        });
+
+        socket.on('echo', (message) => {
+            // Event listener for receiving echoed message from the server
+            console.log('Received echo:', message);
+            divMsg.innerText += message + '\n';
+            // Optionally, you can also scroll to the bottom of the div to show the latest message
+            divMsg.scrollTop = divMsg.scrollHeight;
+        });
+
+        socket.on('broadcast', (message) => {
+            // Event listener for receiving broadcasted message from the server
+            console.log('Received broadcast:', message);
+        });
+
+        socket.on('disconnect', () => {
+            // Event listener for when the connection is closed
+            console.log('Client - Socket disconnected');
+        });
+
+        btnSendMsg.addEventListener('click', sendMsg);
+        txtMsg.addEventListener('keydown', function(event) {
+             // Check if the Enter key was pressed
+            if (event.keyCode === 13) {
+                 // Prevent the default behavior of the Enter key (i.e., submitting the form)
+                event.preventDefault();
+                // Call the sendMsg function
+                sendMsg();
+            }
+        });
+
+        function sendMsg(){
+            const msg = document.getElementById('txtMsg').value;
+            if (msg.trim() !== '') {
+                socket.emit('message', msg);
+                 // Display the sent message in the chat window
+                displayMessage('You: ' + msg);
+                // Clear the input field
+                document.getElementById('txtMsg').value = ''; 
+            }
+        }
+        function displayMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.innerHTML = `
+            <span class="sender">${message.split(':')[0]}:</span>
+            <span class="messageText">${message.split(':')[1]}</span>
+            <br />
+            `;
+            divMsg.appendChild(messageElement);
+            // Scroll to the bottom to show the latest message
+            divMsg.scrollTop = divMsg.scrollHeight; 
+        }
+    </script>  -->
+   
+</body>
+</html>
