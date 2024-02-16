@@ -22,15 +22,28 @@ function requestLoggerMiddleware(req, res, next) {
     let timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
     let reqMethod = req.method;
     console.log(`${colors.yellow(timestamp)} - ${colors.blue(reqMethod)} request received.`);
-    /*
+    next();
+}
+
+function reqLoggerDetailed(req, res, next) {
+    let timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    let reqMethod = req.method;
+    let url = req.originalUrl;
+    let reqHeaders = req.headers;
+    let reqBody = req.body;
+    let ip = getIpFromRequest(req);
     console.log('Logging the request:'
                 + "\n Timestamp: " + colors.yellow(timestamp) 
-                + "\n Req Method: " + colors.blue(reqMethod)
-                + "\n IP: " + colors.magenta(getIpFromRequest(req)));
-    */
+                + "\n Req Method: " + colors.green(reqMethod)
+                + "\n Req URL: " + colors.magenta(url)
+                + "\n Req Headers: " + colors.blue(reqHeaders)
+                + "\n Req Body: " + colors.white(reqBody)
+                + "\n IP: " + colors.red(ip)
+                );
     next();
 }
 
 module.exports = {
     requestLogger : requestLoggerMiddleware
+    ,reqLoggerDetailed: reqLoggerDetailed
 };
