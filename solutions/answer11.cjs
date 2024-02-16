@@ -1,7 +1,7 @@
 const { HttpStatus, HttpStatusCode, HttpStatusWithCode } = require('../utilities/HttpStatusCodes.cjs');
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const app = express();
 app.use(express.json());
 const jwtSecret = process.env.JWT_SECRET || 'shh...its secret';
