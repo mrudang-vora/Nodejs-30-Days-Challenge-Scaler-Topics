@@ -16,7 +16,8 @@ function connectToMongoDB() {
 	let mongoDBStatus = "";
 	// Start the MongoDB connection
 	mongoScalerDBConn.on("connected", () => {
-		mongoDBStatus = "MongoDB connection established successfully";
+		mongoDBStatus =
+			"MongoDB connection established successfully using create connection";
 		console.log(mongoDBStatus);
 	});
 
@@ -29,9 +30,36 @@ function connectToMongoDB() {
 		mongoDBStatus = "MongoDB connection disconnected";
 		console.log(mongoDBStatus);
 	});
-	return mongoDBStatus;
+}
+
+//Challenge 17 mentioned to connect Mongo using mongoose.connect
+async function connectToMongo(url, options = {}) {
+	try {
+		await mongoose.connect(url, options);
+		console.log("MongoDB connected");
+	} catch (error) {
+		console.error("MongoDB connection error:", error.message || error);
+	}
+}
+
+// Initial connection
+connectToMongo(mongoUri, mongoOptions);
+
+//Switch database name in existing connection
+function getDatabaseConnection(dbName) {
+	if (mongoose.connection.name !== dbName) {
+		//clear model cache
+		mongoose.connection.models = {};
+		//switch database
+		mongoose.connection.useDb(dbName, {
+			useCache: false,
+			noListener: true,
+		});
+	}
+	return mongoose.connection;
 }
 
 module.exports = {
 	connectToMongoDB,
+	getDatabaseConnection,
 };
