@@ -11,4 +11,13 @@ async function createUser(req, res, next) {
 	}
 }
 
-module.exports = { createUser };
+async function getAllUsers(req, res, next) {
+	try {
+		const users = await userService.getAllUsers();
+		res.status(HttpStatusWithCode.OK_200).send(users);
+	} catch (error) {
+		next(error);
+	}
+}
+
+module.exports = { createUser, getAllUsers };
