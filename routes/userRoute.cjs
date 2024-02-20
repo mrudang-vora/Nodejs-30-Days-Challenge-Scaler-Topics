@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/users", userController.createUser);
+router.post("/usersValidation", userController.createUserWithValidation);
 router.get("/getAllUsers", userController.getAllUsers);
 
 module.exports = router;

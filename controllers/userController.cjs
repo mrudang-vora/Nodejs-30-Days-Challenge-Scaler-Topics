@@ -11,6 +11,16 @@ async function createUser(req, res, next) {
 	}
 }
 
+async function createUserWithValidation(req, res, next) {
+	try {
+		const userData = req.body;
+		const newUser = await userService.createUserWithValidation(userData);
+		res.status(HttpStatusWithCode.CREATED_201).send(newUser);
+	} catch (error) {
+		next(error);
+	}
+}
+
 async function getAllUsers(req, res, next) {
 	try {
 		const users = await userService.getAllUsers();
@@ -20,4 +30,8 @@ async function getAllUsers(req, res, next) {
 	}
 }
 
-module.exports = { createUser, getAllUsers };
+module.exports = {
+	createUser,
+	createUserWithValidation,
+	getAllUsers,
+};
