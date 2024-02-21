@@ -13,5 +13,5 @@ router.get("/", (req, res) => {
 router.post("/users", userController.createUser);
 router.post("/usersValidation", userController.createUserWithValidation);
 router.get("/getAllUsers", userController.getAllUsers);
-
+router.get("/average-age", userController.getAverageAgeOfUsers);
 module.exports = router;

@@ -55,4 +55,37 @@ async function getAllUsers() {
 	}
 }
 
-module.exports = { createUser, createUserWithValidation, getAllUsers };
+async function getAverageAgeOfUsers() {
+	try {
+		const result = await UserModel.aggregate([
+			{
+				$group: {
+					_id: null,
+					averageAge: { $avg: "$age" },
+				},
+			},
+		]);
+		if (result.length > 0) {
+			return result[0].averageAge;
+		} else {
+			const notFoundError = new Error(
+				`User DB Service Exception NotFoundError => No records found for user model: ${error.message}`
+			);
+			notFoundError.status = HttpStatusWithCode.NOT_FOUND_404;
+			throw notFoundError;
+		}
+	} catch (error) {
+		const serverError = new Error(
+			`User DB Service Exception => Failed to get average age of all users from User model: ${error.message}`
+		);
+		serverError.status = HttpStatusWithCode.INTERNAL_SERVER_ERROR_500;
+		throw serverError;
+	}
+}
+
+module.exports = {
+	createUser,
+	createUserWithValidation,
+	getAllUsers,
+	getAverageAgeOfUsers,
+};

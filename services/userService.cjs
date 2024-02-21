@@ -24,4 +24,17 @@ async function getAllUsers() {
 	}
 }
 
-module.exports = { createUser, createUserWithValidation, getAllUsers };
+async function getAverageAgeOfUsers() {
+	try {
+		return await userDbService.getAverageAgeOfUsers();
+	} catch (error) {
+		throw error;
+	}
+}
+
+module.exports = {
+	createUser,
+	createUserWithValidation,
+	getAllUsers,
+	getAverageAgeOfUsers,
+};

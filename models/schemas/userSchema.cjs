@@ -27,6 +27,12 @@ const userSchema = new mongoose.Schema({
 				appConstants.USER_SCHEMA_EMAIL_VALIDATION_MSG + `: ${props.value}`,
 		},
 	},
+	age: {
+		type: Number,
+		required: false,
+		min: 0,
+		max: 150,
+	},
 });
 
 module.exports = userSchema;

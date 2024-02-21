@@ -30,8 +30,19 @@ async function getAllUsers(req, res, next) {
 	}
 }
 
+async function getAverageAgeOfUsers(req, res, next) {
+	try {
+		const avgAge = await userService.getAverageAgeOfUsers();
+		let objResponse = { success: 1, averageAge: avgAge };
+		res.status(HttpStatusWithCode.OK_200).send(objResponse);
+	} catch (error) {
+		next(error);
+	}
+}
+
 module.exports = {
 	createUser,
 	createUserWithValidation,
 	getAllUsers,
+	getAverageAgeOfUsers,
 };
