@@ -8,6 +8,10 @@ async function getAllProducts() {
 	return await productDBServices.getAllProducts();
 }
 
+async function getProductsPopulatedWithCategory() {
+	return await productDBServices.getProductsPopulatedWithCategory();
+}
+
 async function updateProduct(productId, productData) {
 	return await productDBServices.updateProduct(productId, productData);
 }
@@ -21,4 +25,5 @@ module.exports = {
 	getAllProducts,
 	updateProduct,
 	deleteProduct,
+	getProductsPopulatedWithCategory,
 };

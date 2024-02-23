@@ -1,14 +1,35 @@
 const ProductModel = require("../models/productModel.cjs");
+const ProductCategoryModel = require("../models/productCategoryModel.cjs");
 const { HttpStatusWithCode } = require("../utilities/HttpStatusCodes.cjs");
 
 async function createProduct(productData) {
 	try {
-		// Create a new user instance using the Mongoose model
-		const newProduct = new ProductModel(productData);
-		// Attempt to save the new user to the database
+		let category;
+		// If category information is separate, extract it from productData
+		const { productCategory, ...productInfo } = productData;
+
+		// Check if productCategory exists
+		if (productCategory && productCategory.productCategoryName) {
+			// Find or create the corresponding category by name
+			category = await ProductCategoryModel.findOneAndUpdate(
+				{ productCategoryName: productCategory.productCategoryName },
+				{ productCategoryName: productCategory.productCategoryName },
+				{ upsert: true, new: true }
+			);
+		}
+
+		// Set the productCategory field to the ObjectId of the category
+		productInfo.productCategory = category ? category._id : null;
+
+		// Create a new product instance using the Mongoose model
+		const newProduct = new ProductModel(productInfo);
+
+		// Attempt to save the new product to the database
 		const savedProduct = await newProduct.save();
+
 		// Log a success message if the product is saved successfully
 		console.log(`Product added successfully - ${savedProduct.name}`);
+
 		return savedProduct;
 	} catch (error) {
 		serverError = formatError("create", error);
@@ -21,6 +42,18 @@ async function getAllProducts() {
 		return await ProductModel.find();
 	} catch (error) {
 		serverError = formatError("get", error);
+		throw serverError;
+	}
+}
+
+async function getProductsPopulatedWithCategory() {
+	try {
+		const productsWithCategory = await ProductModel.find().populate(
+			"productCategory"
+		);
+		return productsWithCategory;
+	} catch (error) {
+		serverError = formatError("get categorized", error);
 		throw serverError;
 	}
 }
@@ -74,4 +107,5 @@ module.exports = {
 	getAllProducts,
 	updateProduct,
 	deleteProduct,
+	getProductsPopulatedWithCategory,
 };

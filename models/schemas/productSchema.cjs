@@ -20,5 +20,9 @@ const productSchema = new mongoose.Schema({
 		min: 0,
 		max: 1000000,
 	},
+	productCategory: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "ProductCategory",
+	},
 });
 module.exports = productSchema;

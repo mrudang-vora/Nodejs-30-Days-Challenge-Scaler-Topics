@@ -20,6 +20,15 @@ async function getAllProducts(req, res, next) {
 	}
 }
 
+async function getProductsPopulatedWithCategory(req, res, next) {
+	try {
+		const products = await productServices.getProductsPopulatedWithCategory();
+		res.status(HttpStatusWithCode.OK_200).send(products);
+	} catch (error) {
+		next(error);
+	}
+}
+
 async function updateProduct(req, res, next) {
 	try {
 		const productId = req.params.id;
@@ -50,4 +59,5 @@ module.exports = {
 	getAllProducts,
 	updateProduct,
 	deleteProduct,
+	getProductsPopulatedWithCategory,
 };
