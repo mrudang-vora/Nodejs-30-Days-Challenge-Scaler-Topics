@@ -10,7 +10,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
 	return res
 		.status(HttpStatusWithCode.OK_200)
-		.send("Welcome to Challenge 20 - Get all users from Mongo");
+		.send("Welcome to Challenge 20 - Average age of user");
 });
 
 // Routes

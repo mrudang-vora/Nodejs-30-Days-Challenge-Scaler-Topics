@@ -11,7 +11,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
 	return res
 		.status(HttpStatusWithCode.OK_200)
-		.send("Welcome to Challenge 23 - Get categorized products");
+		.send("Welcome to Challenge 24 - Express routes");
 });
 
 // Routes
