@@ -94,6 +94,17 @@ async function deleteProduct(productId) {
 	}
 }
 
+async function createProductNameIndex() {
+	try {
+		await ProductModel.createIndexes({ name: 1 });
+		console.log(
+			'Index on "name" field of Product collection created successfully.'
+		);
+	} catch (error) {
+		console.error("Error creating index:", error);
+	}
+}
+
 function formatError(operation, error) {
 	console.error("Error:", error.message);
 	const serverError = new Error(
@@ -101,6 +112,9 @@ function formatError(operation, error) {
 	);
 	serverError.status = HttpStatusWithCode.INTERNAL_SERVER_ERROR_500;
 }
+
+// Initialize the service by creating the index
+createProductNameIndex();
 
 module.exports = {
 	createProduct,
