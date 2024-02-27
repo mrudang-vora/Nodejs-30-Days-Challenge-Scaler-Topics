@@ -28,6 +28,14 @@ async function getProductsPopulatedWithCategory(req, res, next) {
 		next(error);
 	}
 }
+async function getProductStatistics(req, res, next) {
+	try {
+		const producStats = await productServices.getProductStatistics();
+		res.status(HttpStatusWithCode.OK_200).send(producStats);
+	} catch (error) {
+		next(error);
+	}
+}
 
 async function updateProduct(req, res, next) {
 	try {
@@ -60,4 +68,5 @@ module.exports = {
 	updateProduct,
 	deleteProduct,
 	getProductsPopulatedWithCategory,
+	getProductStatistics,
 };

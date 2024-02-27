@@ -12,6 +12,10 @@ async function getProductsPopulatedWithCategory() {
 	return await productDBServices.getProductsPopulatedWithCategory();
 }
 
+async function getProductStatistics() {
+	return await productDBServices.getProductStatistics();
+}
+
 async function updateProduct(productId, productData) {
 	return await productDBServices.updateProduct(productId, productData);
 }
@@ -26,4 +30,5 @@ module.exports = {
 	updateProduct,
 	deleteProduct,
 	getProductsPopulatedWithCategory,
+	getProductStatistics,
 };

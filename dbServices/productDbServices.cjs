@@ -101,7 +101,32 @@ async function createProductNameIndex() {
 			'Index on "name" field of Product collection created successfully.'
 		);
 	} catch (error) {
-		console.error("Error creating index:", error);
+		serverError = formatError("create index", error);
+		throw serverError;
+	}
+}
+
+async function getProductStatistics() {
+	try {
+		const productAggregatedStats = await ProductModel.aggregate([
+			{
+				$group: {
+					_id: null,
+					totalProducts: { $sum: 1 },
+					averagePrice: { $avg: "$price" },
+					highestQuantity: { $max: "$quantity" },
+				},
+			},
+		]);
+		const prodStats = {
+			totalProducts: productAggregatedStats[0].totalProducts,
+			averagePrice: productAggregatedStats[0].averagePrice,
+			highestQuantity: productAggregatedStats[0].highestQuantity,
+		};
+		return prodStats;
+	} catch (error) {
+		serverError = formatError("get stats of", error);
+		throw serverError;
 	}
 }
 
@@ -122,4 +147,5 @@ module.exports = {
 	updateProduct,
 	deleteProduct,
 	getProductsPopulatedWithCategory,
+	getProductStatistics,
 };

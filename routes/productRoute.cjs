@@ -17,5 +17,7 @@ router.get(
 	"/productsCategory",
 	productController.getProductsPopulatedWithCategory
 );
+router.get("/productStats", productController.getProductStatistics);
+
 router.delete("/products/:id", productController.deleteProduct);
 module.exports = router;
